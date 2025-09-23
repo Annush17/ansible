@@ -23,17 +23,26 @@
       become_method: sudo
       when: ansible_os_family == "Debian"
     - name: Install Nginx package
+      become: yes
+      become_user: root
+      become_method: sudo
       package:
         name: nginx
         state: present
 
     - name: Start and Enable Nginx service
+      become: yes
+      become_user: root
+      become_method: sudo
       service:
         name: nginx
         state: started
         enabled: yes
 
     - name: Copy index.html
+      become: yes
+      become_user: root
+      become_method: sudo
       copy:
         content: "<h1>Hello from {{ ansible_hostname }}!</h1>"
         dest: /var/www/html/index.html
