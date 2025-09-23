@@ -8,18 +8,18 @@
         update_cache: yes
       when: ansible_os_family == "Debian"
 
-- name: Install Nginx package
-  package:
-    name: nginx
-    state: present
+    - name: Install Nginx package
+      package:
+        name: nginx
+        state: present
 
-- name: Start and Enable Nginx service
-  service:
-    name: nginx
-    state: started
-    enabled: yes
+    - name: Start and Enable Nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: yes
 
-- name: Copy index.html
-  copy:
-    content: "<h1>Hello from {{ ansible_hostname }}!</h1>"
-    dest: /var/www/html/index.html
+    - name: Copy index.html
+      copy:
+        content: "<h1>Hello from {{ ansible_hostname }}!</h1>"
+        dest: /var/www/html/index.html
