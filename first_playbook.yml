@@ -15,8 +15,10 @@
   hosts: web-server-1
   become: yes
   tasks:
-    
-
+    - name: Update apt package cache (for Debian)
+      apt:
+        update_cache: yes
+      when: ansible_os_family == "Debian"
     - name: Install Nginx package
       package:
         name: nginx
