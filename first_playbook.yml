@@ -3,14 +3,14 @@
   hosts: localhost
   gather_facts: no
   tasks:
-  - name: Define hosts
-    add_host:
-      name: web-server-1
-	  ansible_host: 192.168.31.245
-	  ansible_ssh_user: web-server-1
-	  ansible_ssh_pass: "password"
-	  ansible_become: true
-	  ansible_become_pass: "password" # Группа из инвентаря
+    - name: Define hosts
+      add_host:
+        name: web-server-1
+	    ansible_host: 192.168.31.245
+	    ansible_ssh_user: web-server-1
+	    ansible_ssh_pass: "password"
+	    ansible_become: true
+	    ansible_become_pass: "password" # Группа из инвентаря
 - name: My First Ansible Playbook
   hosts: web-server-1:
   become: yes # Выполнять задачи с правами sudo
