@@ -161,9 +161,9 @@
       become_method: sudo
       package:
         name:
-          - kubelet={{ k8s_version }}-00
-          - kubeadm={{ k8s_version }}-00
-          - kubectl={{ k8s_version }}-00
+          - kubelet
+          - kubeadm
+          - kubectl
         state: present
         allow_downgrade: yes
     - name: Hold Kubernetes packages to prevent auto-update
