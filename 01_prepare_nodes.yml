@@ -50,10 +50,16 @@
     k8s_version: "1.28.5"
   tasks:
     - name: Disable swap
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.shell: |
           swapoff -a
           sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
     - name: Load kernel modules
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.shell: |
         cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
         overlay
@@ -62,6 +68,9 @@
         modprobe overlay
         modprobe br_netfilter
     - name: Configure sysctl params
+      become: yes
+      become_user: root
+      become_method: sudo
       shell: |
         cat <<EOF | tee /etc/sysctl.d/k8s.conf
         net.bridge.bridge-nf-call-iptables  = 1
@@ -71,6 +80,9 @@
         sysctl --system
 
     - name: Install required packages
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.package:
         name:
           - apt-transport-https
@@ -81,18 +93,30 @@
         state: present
       
     - name: Add Docker GPG key
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/debian/gpg
         state: present
     - name: Add Docker repository
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
         state: present
     - name: Install containerd
+      become: yes
+      become_user: root
+      become_method: sudo
       package:
         name: containerd.io
         state: present
     - name: Configure containerd
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.copy:
         content: |
           [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
@@ -104,16 +128,25 @@
         group: root
         mode: 0644
     - name: Restart and enable containerd
+      become: yes
+      become_user: root
+      become_method: sudo
       systemd:
         name: containerd
         state: restarted
         enabled: yes
     - name: Add Kubernetes repository
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.apt_repository:
         repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
         state: present
         filename: kubernetes
     - name: Install kubeadm, kubelet, kubectl
+      become: yes
+      become_user: root
+      become_method: sudo
       package:
         name:
           - kubelet={{ k8s_version }}-00
@@ -122,9 +155,15 @@
         state: present
         allow_downgrade: yes
     - name: Hold Kubernetes packages to prevent auto-update
+      become: yes
+      become_user: root
+      become_method: sudo
       ansible.builtin.shell: |
         apt-mark hold kubelet kubeadm kubectl
     - name: Start and enable kubelet
+      become: yes
+      become_user: root
+      become_method: sudo
       systemd:
         name: kubelet
         state: started
