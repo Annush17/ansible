@@ -1,6 +1,20 @@
 ---
+- name: Define cluster hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Define master
+      add_host:
+        name: k8s-master-01
+        ansible_host: 192.168.0.109
+        ansible_ssh_user: root
+        ansible_ssh_pass: "0000"
+        ansible_become: yes
+        ansible_become_pass: "0000"
+
+
 - name: Verify Kubernetes cluster functionality
-  hosts: k8s_master
+  hosts: k8s_master-01
   become: yes
   tasks:
     - name: Create test namespace
