@@ -7,7 +7,7 @@
       add_host:
         name: k8s-master-01
         ansible_host: 192.168.0.109
-        ansible_ssh_user: root
+        ansible_ssh_user: k8s-master-01
         ansible_ssh_pass: "0000"
         ansible_become: yes
         ansible_become_pass: "0000"
@@ -16,7 +16,7 @@
       add_host:
         name: k8s-worker-01
         ansible_host: 192.168.0.106
-        ansible_ssh_user: root
+        ansible_ssh_user: k8s-worker-01
         ansible_ssh_pass: "0000"
         ansible_become: yes
         ansible_become_pass: "0000"
@@ -25,7 +25,7 @@
       add_host:
         name: k8s-worker-02
         ansible_host: 192.168.0.110
-        ansible_ssh_user: root
+        ansible_ssh_user: k8s-worker-02
         ansible_ssh_pass: "0000"
         ansible_become: yes
         ansible_become_pass: "0000"
@@ -34,7 +34,7 @@
       add_host:
         name: k8s-worker-03
         ansible_host: 192.168.0.111
-        ansible_ssh_user: root
+        ansible_ssh_user: k8s-worker-03
         ansible_ssh_pass: "0000"
         ansible_become: yes
         ansible_become_pass: "0000"
