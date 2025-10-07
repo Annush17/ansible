@@ -96,16 +96,19 @@
       become: yes
       become_user: root
       become_method: sudo
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/debian/gpg
-        state: present
-    - name: Add Docker repository
+      ansible.builtin.shell: |
+        install -m 0755 -d /etc/apt/keyrings
+        curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        chmod a+r /etc/apt/keyrings/docker.gpg
+
+    - name: Add Docker repository (bookworm)
       become: yes
       become_user: root
       become_method: sudo
       ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable"
+        repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian bookworm stable"
         state: present
+        
     - name: Install containerd
       become: yes
       become_user: root
@@ -135,14 +138,22 @@
         name: containerd
         state: restarted
         enabled: yes
-    - name: Add Kubernetes repository
+     - name: Add Kubernetes GPG key
+       become: yes
+      become_user: root
+      become_method: sudo
+      ansible.builtin.shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+    - name: Add Kubernetes apt repository (Debian 12)
       become: yes
       become_user: root
       become_method: sudo
       ansible.builtin.apt_repository:
-        repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+        repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /"
         state: present
-        filename: kubernetes
+        
     - name: Install kubeadm, kubelet, kubectl
       become: yes
       become_user: root
