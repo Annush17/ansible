@@ -96,10 +96,9 @@
       become: yes
       become_user: root
       become_method: sudo
-      ansible.builtin.shell: |
-        install -m 0755 -d /etc/apt/keyrings
-        curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-        chmod a+r /etc/apt/keyrings/docker.gpg
+      ansible.builtin.apt_key:
+      url: https://download.docker.com/linux/debian/gpg
+      state: present
 
     - name: Add Docker repository (bookworm)
       become: yes
