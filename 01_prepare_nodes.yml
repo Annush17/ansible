@@ -139,6 +139,11 @@
         state: restarted
         enabled: yes
 
+    - name: Add Kubernetes GPG key
+      ansible.builtin.shell: |
+        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
     - name: Add Kubernetes repository
       become: yes
       become_user: root
