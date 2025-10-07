@@ -138,21 +138,15 @@
         name: containerd
         state: restarted
         enabled: yes
-    - name: Add Kubernetes GPG key
-      become: yes
-      become_user: root
-      become_method: sudo
-      ansible.builtin.shell: |
-        curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-        chmod a+r /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 
-    - name: Add Kubernetes apt repository (Debian 12)
+    - name: Add Kubernetes repository
       become: yes
       become_user: root
       become_method: sudo
       ansible.builtin.apt_repository:
-        repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /"
+        repo: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
         state: present
+        filename: kubernetes
         
     - name: Install kubeadm, kubelet, kubectl
       become: yes
