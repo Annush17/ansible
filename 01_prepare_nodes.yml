@@ -97,8 +97,8 @@
       become_user: root
       become_method: sudo
       ansible.builtin.apt_key:
-      url: https://download.docker.com/linux/debian/gpg
-      state: present
+        url: https://download.docker.com/linux/debian/gpg
+        state: present
 
     - name: Add Docker repository (bookworm)
       become: yes
