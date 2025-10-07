@@ -1,6 +1,50 @@
 ---
+- name: Define cluster hosts
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Define master node
+      add_host:
+        name: k8s-master-01
+        ansible_host: 192.168.0.109
+        ansible_ssh_user: root
+        ansible_ssh_pass: "0000"
+        ansible_become: yes
+        ansible_become_pass: "0000"
+
+    - name: Define worker-01 node
+      add_host:
+        name: k8s-worker-01
+        ansible_host: 192.168.0.106
+        ansible_ssh_user: root
+        ansible_ssh_pass: "0000"
+        ansible_become: yes
+        ansible_become_pass: "0000"
+
+    - name: Define worker-02 node
+      add_host:
+        name: k8s-worker-02
+        ansible_host: 192.168.0.110
+        ansible_ssh_user: root
+        ansible_ssh_pass: "0000"
+        ansible_become: yes
+        ansible_become_pass: "0000"
+
+    - name: Define worker-03 node
+      add_host:
+        name: k8s-worker-03
+        ansible_host: 192.168.0.111
+        ansible_ssh_user: root
+        ansible_ssh_pass: "0000"
+        ansible_become: yes
+        ansible_become_pass: "0000"
+
 - name: Prepare all Kubernetes nodes
-  hosts: k8s_all
+  hosts:
+    - k8s-master-01
+    - k8s-worker-01
+    - k8s-worker-02
+    - k8s-worker-03
   become: yes
   vars:
     k8s_version: "1.28.5"
