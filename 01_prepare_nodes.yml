@@ -70,13 +70,13 @@
         EOF
         sysctl --system
     - name: Install required packages
-    package:
-      name:
-        - apt-transport-https
-        - ca-certificates
-        - curl
-        - gnupg
-        - lsb-release
+      package:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
       state: present
     - name: Add Docker GPG key
       ansible.builtin.apt_key:
