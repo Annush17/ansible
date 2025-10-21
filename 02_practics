@@ -1,0 +1,20 @@
+---
+- name: Simple Semaphore Test Playbook
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Display start message
+      ansible.builtin.debug:
+        msg: "🚀 Playbook started successfully!"
+
+    - name: Simulate doing something useful
+      ansible.builtin.shell: echo "Hello from Ansible Semaphore on $(hostname)"
+      register: hello_output
+
+    - name: Show command output
+      ansible.builtin.debug:
+        msg: "{{ hello_output.stdout }}"
+
+    - name: Display finish message
+      ansible.builtin.debug:
+        msg: "✅ Playbook completed successfully!"
